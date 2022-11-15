@@ -36,6 +36,8 @@ function User(){
     const REACT_APP_PINATA_API_KEY = "524b9ffab33a65f33ae2"
     const REACT_APP_PINATA_API_SECRET = "9e5e381e60309d643ac4e552a8d80932fb779965d3862f89144d42460f014fd3"
 
+
+
     const sendFileToIPFS = async (e) => {
 
         if (file) {
@@ -83,7 +85,7 @@ function User(){
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(mydata)
         };
-        fetch('http://localhost:5000/uploadDocument', requestOptions)
+        fetch('/uploadDocument', requestOptions)
             .then(response => response)
             .then(data => console.log("res : ",data));
     }

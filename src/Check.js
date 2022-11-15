@@ -48,7 +48,7 @@ function Check(){
 
     async  function handleAxios(){
         console.log('Handle Axios');
-            const res=await axios.post('http://localhost:5000/getDocument',{});
+            const res=await axios.post('/getDocument',{});
             setMyData( res.data )
         } 
     

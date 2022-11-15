@@ -5,12 +5,17 @@ const routes = require('./routes.js');
 const mongoose = require("mongoose");
 const core = require('crypto-js/core');
 const app = express();
-const cors= require ('cors');
+const path = require("path")
+const cors = require('cors');
 
-const port = process.env.PORT || 5000; // set our port
+const port = process.env.PORT || 5500; // set our port
 app.use(cors())
 app.use('/', routes);
-
+app.use("/", express.static("../build/"))
+app.use("/home", async (req, res) => {
+    res.sendFile(path.join(__dirname, "../build/index.html")
+    )
+})
 app.use((err, req, res, next) => {
     res.status(err.status || 400).json({
         success: false,

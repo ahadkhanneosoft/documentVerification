@@ -19,51 +19,51 @@ import Docs from './Docs.js'
 export const MetaMaskProvider = () => {
   const { activate, account, active, deactivate } = useWeb3React();
 
-    async function connect() {
-        try {
-          await activate(injected)
-          localStorage.setItem('isWalletConnected', true)
-        } catch (error) {
-        }
+  async function connect() {
+    try {
+      await activate(injected)
+      localStorage.setItem('isWalletConnected', true)
+    } catch (error) {
     }
+  }
 
-    async function disconnect() {
-        try {
-          deactivate()
-          localStorage.setItem('isWalletConnected', false)
-        } catch (error) {
-          console.log(error)
-        }
+  async function disconnect() {
+    try {
+      deactivate()
+      localStorage.setItem('isWalletConnected', false)
+    } catch (error) {
+      console.log(error)
     }
+  }
 
   useEffect(() => {
     const connectWalletOnPageLoad = async () => {
-        
-        if (localStorage?.getItem('isWalletConnected') === 'true') {
-            try {
-                await activate(injected)
-                localStorage.setItem('isWalletConnected', true)
-            } 
-            catch (error) {
-                console.log(error)
-            }
+
+      if (localStorage?.getItem('isWalletConnected') === 'true') {
+        try {
+          await activate(injected)
+          localStorage.setItem('isWalletConnected', true)
         }
+        catch (error) {
+          console.log(error)
+        }
+      }
     }
     // eslint-disable-next-line
     connectWalletOnPageLoad()
     localStorage.clear();
     // eslint-disable-next-line
-}, [])
+  }, [])
 
 
 
   return (
     <div className="App">
-  
+
       {/* Header */}
       <header className="App-header">
         Document Verification
-        <Button onClick={active?disconnect:connect} >{active?'Disconnect':'Connect to MetaMask'}</Button>
+        <Button onClick={active ? disconnect : connect} >{active ? 'Disconnect' : 'Connect to MetaMask'}</Button>
 
       </header>
 
@@ -81,8 +81,8 @@ export const MetaMaskProvider = () => {
 
       <div className='row02'>
         <Router>
-        <div>
-          <nav>
+          <div>
+            <nav>
               <ul>
                 <Link to="/">Home</Link>
               </ul>
@@ -90,33 +90,33 @@ export const MetaMaskProvider = () => {
                 <Link to="/upload">Upload</Link>
               </ul>
               {
-                active?
-                <span>
-                  <ul>
-                    <Link to="/myDocs">My documents</Link>
-                  </ul>
-                </span>:
-                <span></span>
-              }   
-          </nav>
+                active ?
+                  <span>
+                    <ul>
+                      <Link to="/myDocs">My documents</Link>
+                    </ul>
+                  </span> :
+                  <span></span>
+              }
+            </nav>
 
-          <Switch>
+            <Switch>
 
-            <Route path="/upload">
-              <User/>
-            </Route>
+              <Route path="/upload">
+                <User />
+              </Route>
 
-            <Route path="/myDocs">
-              <Docs/>
-            </Route>
+              <Route path="/myDocs">
+                <Docs />
+              </Route>
 
-            <Route path="/">
-              <Check/>
-            </Route>
-                         
-          </Switch>
-        </div>
-      </Router>        
+              <Route path="/">
+                <Check />
+              </Route>
+
+            </Switch>
+          </div>
+        </Router>
 
       </div>
 
@@ -124,7 +124,7 @@ export const MetaMaskProvider = () => {
       <div className="App-footer">
         Neosoft Technologies pvt. ltd.
       </div>
-        
+
     </div>
   )
 } 
