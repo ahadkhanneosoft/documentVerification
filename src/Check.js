@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import CryptoJS from 'crypto-js';
-import './App.css'
 
-import verifyABI from './abiVerify.json'
 import Web3 from 'web3';
-
 import { useWeb3React } from "@web3-react/core"
+import CryptoJS from 'crypto-js';
+import { PDFDocument } from 'pdf-lib';
 import axios from 'axios';
 
-import { PDFDocument } from 'pdf-lib';
-
+import './App.css'
+import verifyABI from './abiVerify.json'
 
 function Check(){
-
-
     const web3 = new Web3(window.ethereum);
     const verifyAdd = '0xEA8c383E49F54f3649627874952287943058Ec01'
     const Contract = new web3.eth.Contract(verifyABI, verifyAdd);
@@ -26,17 +22,12 @@ function Check(){
     let [blockNumber, setBlockNumber] = useState("");
     let [uri,setUri] = useState("");
     let [index, setIndex] = useState("");
-
     let [file,setfile] = useState(null);
-
     let [myData, setMyData] = useState([]);
 
     // Fetch data from DB and copy to array
 
-    async function data() {
-        // await Acc;
-        
-
+    async function data() {   
         console.log('Function',Acc)
         const requestOptions = {
             method: 'POST',
@@ -84,51 +75,45 @@ function Check(){
                     console.log(Result.id);
                     if (Result.id <= 0){
                         setMsg(msg="Tampered");
-                        // setValidMsg(validMsg="Couldn't read key data from file")
+                        setValidMsg(validMsg=" ")
                         console.log(msg);
                     }
                     else{
                         setMsg(msg="Valid Document");
                         console.log(msg);
-
                         if(myData.find(t=>t.hash==Result.hash)){
-                            setBlockNumber(blockNumber=myData.find(t=>t.blockNumber).blockNumber)
+                            setBlockNumber(blockNumber=myData.find(t=>t.hash==Result.hash).blockNumber)
                             console.log(blockNumber)
-
-                            setUri(uri=myData.find(t=>t.uri).uri)
+                            setUri(uri=myData.find(t=>t.hash==Result.hash).uri)
+                            console.log(uri);
                         }
-                        
-
                         web3.eth.getBlock(blockNumber).then(function(Res){
                             var date = new Date(Res.timestamp*1000);
                             setValidMsg(msg="This document was issued by "+Result.fileOwner+" on "
                             +date)  ;
                         })
                     }   
-            })
-        }
-    });
+                })
+            }
+        });
         fileReader.readAsDataURL(file);
-            
-        }
-        else{
-            setMsg(msg="Invalid Document");
-            setValidMsg(validMsg="Couldn't read key data from file")
-            console.log(msg);
-        }
-            
-   }
-    return(
-        <div className="row02">
-            <h1>Verify</h1>
-            <input type="file" onChange={(e) =>setfile(e.target.files[0])} required />
-            <br></br>
-            <button type='submit' onClick={Upload}>Upload</button>
-            <h3>{msg}</h3>
-            <p>{validMsg}</p>
-            {/* <a href={uri} target='_blank'>View</a> */}
-        </div>
-        
+    }
+    else{
+        setMsg(msg="Invalid Document");
+        setValidMsg(validMsg="Couldn't read key data from file")
+        console.log(msg);
+    }            
+}
+return(
+    <div className="row02">
+        <h1>Verify</h1>
+        <input type="file" onChange={(e) =>setfile(e.target.files[0])} required />
+        <br></br>
+        <button type='submit' onClick={Upload}>Upload</button>
+        <h3>{msg}</h3>
+        <p>{validMsg}</p>
+        {/* <a href={uri} target='_blank'>View</a> */}
+    </div>        
     )
 }
 
